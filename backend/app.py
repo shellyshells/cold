@@ -12,6 +12,9 @@ import os
 # Data file configuration - can be overridden for testing
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'food_data.json')
 
+# Import blueprints
+from backend.routes.foods import foods_bp
+
 # Flask app initialization
 app = Flask(__name__)
 
@@ -31,6 +34,9 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s [%(name)s] %(message)s',
 )
 logger = logging.getLogger('fridgy')
+
+# Register blueprints
+app.register_blueprint(foods_bp, url_prefix='/api')
 
 
 @app.errorhandler(Exception)
