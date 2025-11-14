@@ -12,8 +12,13 @@ import os
 # Data file configuration - can be overridden for testing
 DATA_FILE = os.path.join(os.path.dirname(__file__), 'food_data.json')
 
+# -------------------------------
 # Import blueprints
+# -------------------------------
 from backend.routes.foods import foods_bp
+from backend.routes.recipes import recipes_bp
+from backend.routes.health import health_bp
+# -------------------------------
 
 # Flask app initialization
 app = Flask(__name__)
@@ -35,9 +40,13 @@ logging.basicConfig(
 )
 logger = logging.getLogger('fridgy')
 
+# -------------------------------
 # Register blueprints
+# -------------------------------
 app.register_blueprint(foods_bp, url_prefix='/api')
-
+app.register_blueprint(recipes_bp, url_prefix='/api')
+app.register_blueprint(health_bp, url_prefix='/api')
+# -------------------------------
 
 @app.errorhandler(Exception)
 def handle_uncaught_exceptions(error):
