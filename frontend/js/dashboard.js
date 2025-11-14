@@ -1,26 +1,20 @@
-/**
- * Dashboard page controller.
- * 
- * Displays statistics and charts for food, meals, and nutrition data.
- * Uses Chart.js for data visualization.
- */
-
 class Dashboard {
     constructor() {
         this.api = new FoodAPI();
-        
-        // Check if Chart.js loaded
+        // If Chart.js failed to load (e.g., CDN blocked or opened via file://), show a helpful message
         if (typeof window.Chart === 'undefined') {
             this.showChartLibError();
             return;
         }
-        
         this.charts = {};
         this.loadData();
     }
 
     showChartLibError() {
+        // Prevent multiple error messages
+        if (document.getElementById('chart-lib-error')) return;
         const div = document.createElement('div');
+        div.id = 'chart-lib-error';
         div.style.cssText = `
             position: fixed;
             top: 110px;
@@ -36,7 +30,7 @@ class Dashboard {
         `;
         div.innerHTML = `
             <strong>Charts disabled</strong><br>
-            <small>Chart.js library failed to load. Check your internet connection.</small>
+            Chart.js was not loaded. If you're opening the HTML files directly, serve the frontend over HTTP (e.g., <code>cd frontend && python -m http.server 3000</code>) or ensure the CDN script is reachable.
         `;
         document.body.appendChild(div);
     }
@@ -65,65 +59,20 @@ class Dashboard {
         
         const expiringList = document.getElementById('expiring-list');
         if (expiring.length === 0) {
-            expiringList.innerHTML = '<p style="color: var(--text-light);">No food items expiring soon! ✅</p>';
+            expiringList.innerHTML = '<p>No food items expiring soon!</p>';
         } else {
             expiringList.innerHTML = expiring.map(food => `
-                <div style="padding: 0.5rem; border-left: 4px solid #f39c12; 
-                           margin: 0.5rem 0; background: #fff9e6; border-radius: 4px;">
-                    <strong>${food.name}</strong> - Expires in ${this.getDaysUntilExpiry(food.expiryDate)} day(s)
+                <div class="food-item">
+                    <strong>${food.name}</strong> - Expires in ${this.getDaysUntilExpiry(food.expiryDate)} days
                 </div>
             `).join('');
         }
         
         // Update charts
-        this.updateCaloriesChart(nutritionTrends);
         this.updateNutritionChart(nutritionTrends);
+        this.updateCaloriesChart(nutritionTrends);
         this.updateMealsChart(stats);
-    }
-
-    getDaysUntilExpiry(expiryDate) {
-        const today = new Date();
-        const expiry = new Date(expiryDate);
-        return Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
-    }
-
-    updateCaloriesChart(trends) {
-        const ctx = document.getElementById('calories-chart');
-        if (!ctx) return;
-        
-        if (this.charts.calories) {
-            this.charts.calories.destroy();
-        }
-        
-        const labels = trends.map(t => new Date(t.date).toLocaleDateString());
-        const calories = trends.map(t => t.calories);
-        
-        this.charts.calories = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Calories',
-                    data: calories,
-                    backgroundColor: 'rgba(46, 204, 113, 0.5)',
-                    borderColor: 'rgba(46, 204, 113, 1)',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        this.updateStorageChart(stats);
     }
 
     updateNutritionChart(trends) {
@@ -144,23 +93,20 @@ class Dashboard {
                     {
                         label: 'Protein (g)',
                         data: trends.map(t => t.protein),
-                        borderColor: 'rgb(231, 76, 60)',
-                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                        tension: 0.3
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
                     },
                     {
                         label: 'Carbs (g)',
                         data: trends.map(t => t.carbs),
-                        borderColor: 'rgb(52, 152, 219)',
-                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
-                        tension: 0.3
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.1
                     },
                     {
                         label: 'Fats (g)',
                         data: trends.map(t => t.fats),
-                        borderColor: 'rgb(241, 196, 15)',
-                        backgroundColor: 'rgba(241, 196, 15, 0.1)',
-                        tension: 0.3
+                        borderColor: 'rgb(255, 205, 86)',
+                        tension: 0.1
                     }
                 ]
             },
@@ -169,6 +115,45 @@ class Dashboard {
                 plugins: {
                     legend: {
                         position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    updateCaloriesChart(trends) {
+        const ctx = document.getElementById('calories-chart');
+        if (!ctx) return;
+        
+        if (this.charts.calories) {
+            this.charts.calories.destroy();
+        }
+        
+        const labels = trends.map(t => new Date(t.date).toLocaleDateString());
+        const calories = trends.map(t => t.calories);
+        
+        this.charts.calories = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Calories',
+                    data: calories,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 },
                 scales: {
@@ -202,18 +187,18 @@ class Dashboard {
                         mealTypes.snacks
                     ],
                     backgroundColor: [
-                        'rgba(231, 76, 60, 0.8)',
-                        'rgba(52, 152, 219, 0.8)',
-                        'rgba(155, 89, 182, 0.8)',
-                        'rgba(241, 196, 15, 0.8)'
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)'
                     ],
                     borderColor: [
-                        'rgb(231, 76, 60)',
-                        'rgb(52, 152, 219)',
-                        'rgb(155, 89, 182)',
-                        'rgb(241, 196, 15)'
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
                     ],
-                    borderWidth: 2
+                    borderWidth: 1
                 }]
             },
             options: {
@@ -226,16 +211,56 @@ class Dashboard {
             }
         });
     }
-}
 
-// Add missing API method
-FoodAPI.prototype.getNutritionTrends = async function(days = 30) {
-    try {
-        return await this.safeFetch(`${this.baseUrl}/nutrition/trends?days=${days}`);
-    } catch (error) {
-        console.error('Error fetching nutrition trends:', error);
-        return [];
+    updateStorageChart(stats) {
+        const ctx = document.getElementById('storage-chart');
+        if (!ctx) return;
+        
+        if (this.charts.storage) {
+            this.charts.storage.destroy();
+        }
+        
+        const storage = stats.foods.byStorage;
+        
+        this.charts.storage = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Fridge', 'Shelf', 'Freezer'],
+                datasets: [{
+                    data: [
+                        storage.fridge,
+                        storage.shelf,
+                        storage.freezer
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(255, 205, 86, 0.5)',
+                        'rgba(54, 162, 235, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
     }
-};
+
+    getDaysUntilExpiry(expiryDate) {
+        const today = new Date();
+        const expiry = new Date(expiryDate);
+        return Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+    }
+}
 
 const dashboard = new Dashboard();

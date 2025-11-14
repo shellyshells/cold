@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Fridgy</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
 </head>
 <body>
     <nav class="nav">
         <ul class="nav-links">
             <li><a href="index.html" class="nav-link">Home</a></li>
-            <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
             <li><a href="food.html" class="nav-link">Food Storage</a></li>
             <li><a href="recipes.html" class="nav-link">Recipes</a></li>
             <li><a href="tracker.html" class="nav-link">Meal Tracker</a></li>
@@ -21,7 +20,7 @@
     </nav>
 
     <div class="container">
-        <h1>📊 Dashboard</h1>
+        <h1>Dashboard</h1>
         
         <div class="stats-controls">
             <label>Period: </label>
@@ -52,23 +51,28 @@
         </div>
 
         <div class="card">
-            <h2>⚠️ Expiring Soon</h2>
+            <h2>Expiring Soon</h2>
             <div id="expiring-list"></div>
         </div>
 
         <div class="card">
-            <h2>📈 Daily Calorie Intake</h2>
-            <canvas id="calories-chart" width="400" height="200"></canvas>
-        </div>
-
-        <div class="card">
-            <h2>🥗 Nutrition Trends</h2>
+            <h2>Nutrition Trends</h2>
             <canvas id="nutrition-chart" width="400" height="200"></canvas>
         </div>
 
         <div class="card">
-            <h2>🍽️ Meal Distribution</h2>
+            <h2>Daily Calorie Intake</h2>
+            <canvas id="calories-chart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Meal Distribution</h2>
             <canvas id="meals-chart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>Storage Distribution</h2>
+            <canvas id="storage-chart" width="400" height="200"></canvas>
         </div>
     </div>
 
