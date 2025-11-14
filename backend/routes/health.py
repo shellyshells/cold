@@ -71,3 +71,48 @@ def handle_steps():
         data['steps'].append(new_entry)
         save_data(data)
         return jsonify(new_entry), 201
+
+@health_bp.route('/health-metrics/trends', methods=['GET', 'OPTIONS'])
+@cross_origin()
+def get_health_metrics_trends():
+    """Get time-series trend data for a specific health metric type."""
+    if request.method == 'GET':
+        metric_type = request.args.get('type', 'weight')
+        try:
+            days = int(request.args.get('days', 30))
+        except Exception:
+            days = 30
+
+        data = load_data()
+        metrics = [m for m in data.get('healthMetrics', []) 
+                  if m.get('type') == metric_type]
+
+        # Build map of date to latest value
+        by_date = {}
+        for metric in metrics:
+            date = metric.get('date', '')
+            if not date:
+                continue
+            date_key = date.split('T')[0]
+            
+            if date_key not in by_date or metric.get('date', '') > by_date[date_key]['date']:
+                by_date[date_key] = {
+                    'date': metric.get('date'),
+                    'value': metric.get('value')
+                }
+
+        # Build list for requested days
+        trends = []
+        today = datetime.now()
+        for i in range(days-1, -1, -1):
+            day = (today - timedelta(days=i)).date()
+            key = day.isoformat()
+            if key in by_date:
+                trends.append({
+                    'date': by_date[key]['date'],
+                    'value': by_date[key]['value']
+                })
+            else:
+                trends.append({'date': key, 'value': None})
+
+        return jsonify(trends)
