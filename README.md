@@ -39,33 +39,10 @@ pip install -r requirements.txt --break-system-packages
 
 Note: The `--break-system-packages` flag is required on Ubuntu 24.
 
-3. **Run the backend server**
-```bash
-python app.py
-```
+3. **Start the server**
 
-The backend will start on `http://localhost:8080`
-
-You should see:
-```
-INFO Starting Fridgy backend server on port 8080
-```
-
-### Frontend Setup
-
-1. **Open a new terminal** (keep backend running)
-
-2. **Start the frontend server**
-```bash
-cd frontend
-python -m http.server 3000
-```
-
-3. **Access the application**
-
-Open your browser and navigate to:
-```
-http://localhost:3000
+```powershell
+python -m backend.server
 ```
 
 ### Testing the Application
@@ -90,8 +67,7 @@ http://localhost:3000
 
 ### Running Tests
 ```bash
-cd backend
-pytest tests/ -v
+pytest backend/tests/ -v
 ```
 
 All tests should pass:
@@ -180,34 +156,9 @@ test_recipe_recommendations PASSED
 - pip (Python package manager)
 - Modern web browser
 
-### Installation
-```bash
-# Clone the repository
-git clone <repository-url>
-cd fridgy
-
-# Install backend dependencies
-cd backend
-pip install -r requirements.txt --break-system-packages
-
-# Run the backend server
-python app.py
-```
-
-The backend will start on `http://localhost:8080`
-
-### Running the Frontend
-```bash
-# From project root
-cd frontend
-python -m http.server 3000
-```
-
-Access the application at `http://localhost:3000`
-
 ## Project Structure
 ```
-fridgy/
+Fridgy/
 ├── backend/
 │   ├── app.py              # Flask application setup
 │   ├── data_service.py     # Data persistence layer
@@ -234,10 +185,3 @@ pytest tests/
 2. Follow naming conventions in CONVENTIONS.md
 3. Write tests for new features
 4. Submit a pull request with clear description
-
-## License
-MIT License
-
-## Authors
-- Developer A - Backend & Architecture
-- Developer B - Frontend & UX

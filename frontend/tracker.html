@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Meal Tracker - Fridgy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tracker.css">
+    <link rel="icon" type="image/x-icon" href="image/logo.png">
+</head>
+<body>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="food.html" class="nav-link">Food Storage</a></li>
+            <li><a href="recipes.html" class="nav-link">Recipes</a></li>
+            <li><a href="tracker.html" class="nav-link">Meal Tracker</a></li>
+            <li><a href="health.html" class="nav-link">Health Metrics</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Meal Tracker</h1>
+        
+        <button class="btn" onclick="trackerPage.showAddForm()">Log Meal</button>
+
+        <div id="add-form" class="card hidden">
+            <h3>Log New Meal</h3>
+            <form id="meal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Meal Type:</label>
+                        <select id="meal-type" required>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                            <option value="snacks">Snacks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" id="meal-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time:</label>
+                        <input type="time" id="meal-time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Select Foods from Inventory:</label>
+                    <select id="meal-foods-select" multiple style="min-height: 100px;">
+                        <option value="">Loading foods...</option>
+                    </select>
+                    <small>Hold Ctrl/Cmd to select multiple</small>
+                </div>
+                <div class="form-group">
+                    <label>Or Enter Custom Foods (comma separated):</label>
+                    <input type="text" id="meal-foods-custom" placeholder="Milk, Bread, Eggs">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="trackerPage.hideForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Log Meal</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="form-group">
+                <label>View Nutrition for Date:</label>
+                <input type="date" id="nutrition-date">
+            </div>
+        </div>
+
+        <div id="daily-nutrition"></div>
+        <div id="meals-list"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/tracker.js"></script>
+</body>
+</html>
