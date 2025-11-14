@@ -77,10 +77,13 @@ class RecipesPage {
                 
                 this.removeMessages();
                 
-                // BUG: Not filtering empty lines properly
+                // BUG: Not filtering empty lines properly!
                 const recipe = {
                     name: document.getElementById('recipe-name').value.trim(),
-                    ingredients: document.getElementById('recipe-ingredients').value.split('\n'),
+                    ingredients: document.getElementById('recipe-ingredients').value
+                        .split('\n')
+                        .map(i => i.trim())
+                        .filter(i => i !== ''),
                     instructions: document.getElementById('recipe-instructions').value.trim(),
                     cookTime: parseInt(document.getElementById('recipe-time').value) || 0,
                     servings: parseInt(document.getElementById('recipe-servings').value) || 1
