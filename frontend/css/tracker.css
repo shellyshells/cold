@@ -1,0 +1,76 @@
+/* Meal tracker page specific styles */
+
+.meal-card {
+    border-left: 5px solid #9b59b6;
+    margin: 1.5rem 0;
+    transition: all 0.3s ease;
+}
+
+.meal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.meal-type {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    font-weight: 600;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(155, 89, 182, 0.3);
+}
+
+.meal-foods {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 0.75rem 0;
+    border: 2px solid #e0e0e0;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.nutrition-grid span {
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border: 1px solid #e0e0e0;
+}
+
+.nutrition-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.nutrition-totals, .nutrition-by-meal {
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+    .nutrition-summary {
+        grid-template-columns: 1fr;
+    }
+}
