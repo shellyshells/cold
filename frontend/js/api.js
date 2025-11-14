@@ -71,7 +71,7 @@ class FoodAPI {
     }
 
     async safeFetch(url, options = {}) {
-        try {
+        const doFetch = async () => {
             const response = await fetch(url, {
                 ...options,
                 headers: {
@@ -83,10 +83,22 @@ class FoodAPI {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             return await response.json();
+        };
+
+        try {
+            return await doFetch();
         } catch (error) {
-            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.name === 'TypeError') {
-                this.showConnectionError();
-                throw new Error('Cannot connect to server. Make sure the backend is running on http://localhost:8080');
+            // Treat network/TypeError as transient and try a single short retry
+            const isNetworkError = error.message.includes('Failed to fetch') || error.message.includes('NetworkError') || error.name === 'TypeError';
+            if (isNetworkError) {
+                // small delay before retry
+                await new Promise(res => setTimeout(res, 500));
+                try {
+                    return await doFetch();
+                } catch (err2) {
+                    this.showConnectionError();
+                    throw new Error('Cannot connect to server. Make sure the backend is running on http://localhost:8080');
+                }
             }
             throw error;
         }
