@@ -242,4 +242,44 @@ class FoodAPI {
             return [];
         }
     }
+    /**
+     * Get all meals.
+     */
+    async getMeals() {
+        try {
+            return await this.safeFetch(`${this.baseUrl}/meals`);
+        } catch (error) {
+            console.error('Error fetching meals:', error);
+            return [];
+        }
+    }
+
+    /**
+     * Add new meal with automatic nutrition calculation.
+     */
+    async addMeal(meal) {
+        return await this.safeFetch(`${this.baseUrl}/meals`, {
+            method: 'POST',
+            body: JSON.stringify(meal)
+        });
+    }
+
+    /**
+     * Delete meal.
+     */
+    async deleteMeal(id) {
+        await fetch(`${this.baseUrl}/meals/${id}`, { method: 'DELETE' });
+    }
+
+    /**
+     * Get daily nutrition summary for specific date.
+     */
+    async getDailyNutrition(date) {
+        try {
+            return await this.safeFetch(`${this.baseUrl}/nutrition/daily?date=${date}`);
+        } catch (error) {
+            console.error('Error fetching daily nutrition:', error);
+            return { date, totals: {}, byMealType: {}, meals: [] };
+        }
+    }
 }

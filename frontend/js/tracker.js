@@ -249,36 +249,6 @@ class TrackerPage {
     }
 }
 
-// Add missing API method
-FoodAPI.prototype.getMeals = async function() {
-    try {
-        return await this.safeFetch(`${this.baseUrl}/meals`);
-    } catch (error) {
-        console.error('Error fetching meals:', error);
-        return [];
-    }
-};
-
-FoodAPI.prototype.addMeal = async function(meal) {
-    return await this.safeFetch(`${this.baseUrl}/meals`, {
-        method: 'POST',
-        body: JSON.stringify(meal)
-    });
-};
-
-FoodAPI.prototype.deleteMeal = async function(id) {
-    await fetch(`${this.baseUrl}/meals/${id}`, { method: 'DELETE' });
-};
-
-FoodAPI.prototype.getDailyNutrition = async function(date) {
-    try {
-        return await this.safeFetch(`${this.baseUrl}/nutrition/daily?date=${date}`);
-    } catch (error) {
-        console.error('Error fetching daily nutrition:', error);
-        return { date, totals: {}, byMealType: {}, meals: [] };
-    }
-};
-
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         window.trackerPage = new TrackerPage();
