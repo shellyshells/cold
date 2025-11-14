@@ -1,5 +1,5 @@
 # Fridgy - Smart Food Management System
-
+![alt text](frontend/image/readme.png)
 ## Overview
 Fridgy is a web application that helps users track food inventory, manage recipes, log meals, and monitor health metrics to reduce food waste and maintain a healthy lifestyle.
 
