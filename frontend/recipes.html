@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Fridgy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/recipes.css">
+</head>
+<body>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="food.html" class="nav-link">Food Storage</a></li>
+            <li><a href="recipes.html" class="nav-link active">Recipes</a></li>
+            <li><a href="tracker.html" class="nav-link">Meal Tracker</a></li>
+            <li><a href="health.html" class="nav-link">Health Metrics</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>📖 Recipes</h1>
+        
+        <button class="btn btn-primary" onclick="recipesPage.showAddForm()">Add Recipe</button>
+
+        <div id="add-form" class="card hidden">
+            <h3>Add New Recipe</h3>
+            <form id="recipe-form">
+                <div class="form-group">
+                    <label>Recipe Name:</label>
+                    <input type="text" id="recipe-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ingredients (one per line):</label>
+                    <textarea id="recipe-ingredients" rows="4" 
+                              placeholder="2 cups flour&#10;1 cup milk&#10;3 eggs" required></textarea>
+                    <small>Enter each ingredient on a new line</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Instructions:</label>
+                    <textarea id="recipe-instructions" rows="6" required></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Cook Time (minutes):</label>
+                        <input type="number" id="recipe-time" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Servings:</label>
+                        <input type="number" id="recipe-servings" min="1" value="2" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="recipesPage.hideForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Recipe</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="recipes-list"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/recipes.js"></script>
+</body>
+</html>
