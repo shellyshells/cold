@@ -1,0 +1,89 @@
+/* Food storage page specific styles */
+
+.food-card {
+    border-left: 5px solid #2ecc71;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.food-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    transition: width 0.3s ease;
+}
+
+.food-card:hover::before {
+    width: 8px;
+}
+
+.food-card.expiring {
+    border-left-color: #f39c12;
+    animation: pulse 2s infinite;
+}
+
+.food-card.expiring::before {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.food-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.food-header > div {
+    flex: 1;
+    min-width: 200px;
+}
+
+.expiry-warning {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    color: #856404;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    border: 2px solid #f39c12;
+    display: inline-block;
+}
+
+.reminder-item {
+    padding: 1rem;
+    margin: 0.75rem 0;
+    border-radius: 12px;
+    border-left: 5px solid #f39c12;
+    background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reminder-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.reminder-item.expiry-high {
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffcccc 100%);
+    border-left-color: #e74c3c;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}

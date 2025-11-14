@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Metrics - Fridgy</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <nav class="nav">
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+            <li><a href="food.html" class="nav-link">Food Storage</a></li>
+            <li><a href="recipes.html" class="nav-link">Recipes</a></li>
+            <li><a href="tracker.html" class="nav-link">Meal Tracker</a></li>
+            <li><a href="health.html" class="nav-link active">Health Metrics</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>💪 Health Metrics</h1>
+        
+        <button class="btn btn-primary" onclick="healthPage.showAddForm()">Add Health Metric</button>
+
+        <div id="add-form" class="card hidden">
+            <h3>Add Health Metric</h3>
+            <form id="health-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Metric Type:</label>
+                        <select id="metric-type" required>
+                            <option value="weight">Weight (kg)</option>
+                            <option value="bmi">BMI</option>
+                            <option value="cholesterol">Cholesterol (mg/dL)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Value:</label>
+                        <input type="number" id="metric-value" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" id="metric-date" required>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="healthPage.hideForm()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Metric</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>📉 Weight Trend</h2>
+            <canvas id="weight-chart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>📊 BMI Trend</h2>
+            <canvas id="bmi-chart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>🩺 Cholesterol Trend</h2>
+            <canvas id="cholesterol-chart"></canvas>
+        </div>
+
+        <div class="card">
+            <h2>📋 Recent Metrics</h2>
+            <div id="metrics-list"></div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/health.js"></script>
+</body>
+</html>
