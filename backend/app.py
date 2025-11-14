@@ -18,6 +18,8 @@ DATA_FILE = os.path.join(os.path.dirname(__file__), 'food_data.json')
 from backend.routes.foods import foods_bp
 from backend.routes.recipes import recipes_bp
 from backend.routes.health import health_bp
+from backend.routes.meals import meals_bp
+from backend.routes.analytics import analytics_bp
 # -------------------------------
 
 # Flask app initialization
@@ -46,6 +48,8 @@ logger = logging.getLogger('fridgy')
 app.register_blueprint(foods_bp, url_prefix='/api')
 app.register_blueprint(recipes_bp, url_prefix='/api')
 app.register_blueprint(health_bp, url_prefix='/api')
+app.register_blueprint(meals_bp, url_prefix='/api')
+app.register_blueprint(analytics_bp, url_prefix='/api')
 # -------------------------------
 
 @app.errorhandler(Exception)
